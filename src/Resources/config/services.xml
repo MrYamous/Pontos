@@ -5,8 +5,7 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="yamous.yamous_showtablecommand" class="Yamous\InspectDatabaseBundle\Command\ShowTableCommand" />
-
-        <service id="Yamous\InspectDatabaseBundle\Command\ShowTableCommand" alias="yamous.yamous_showtablecommand" />
+        <service id="yamous_inspect_database.show_database_command" class="Yamous\InspectDatabaseBundle\Command\ShowDatabaseCommand" public="false" />
+        <service id="Yamous\InspectDatabaseBundle\Command\ShowDatabaseCommand" alias="yamous_inspect_database.show_database_command" public="false" />
     </services>
 </container>
