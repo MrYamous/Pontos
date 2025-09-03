@@ -5,7 +5,9 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="yamous_inspect_database.show_database_command" class="Yamous\InspectDatabaseBundle\Command\ShowDatabaseCommand" public="false" />
-        <service id="Yamous\InspectDatabaseBundle\Command\ShowDatabaseCommand" alias="yamous_inspect_database.show_database_command" public="false" />
+        <service id="yamous_inspect_database.show_database_command" class="Yamous\InspectDatabaseBundle\Command\ShowDatabaseCommand" public="true">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>
