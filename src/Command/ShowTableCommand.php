@@ -29,7 +29,7 @@ final class ShowTableCommand extends Command
 
         $columns = $schemaManager->listTableDetails($tableName)->getColumns();
 
-        $tableData = array_map(
+        $columnData = array_map(
             fn($column) => [
                 $column->getName(),
                 $column->getType()->getName(),
@@ -61,7 +61,29 @@ final class ShowTableCommand extends Command
             'Autoincrement',
             'Comment'
         ],
-            $tableData
+            $columnData
+        );
+
+        $io->section('Indexes Information');
+
+        $indexes = $schemaManager->listTableIndexes($tableName);
+        
+        $indexData = array_map(
+            fn($index) => [
+                implode($index->getColumns()),
+                $index->isUnique() ? 'Yes' : 'No',
+                $index->isPrimary() ? 'Yes' : 'No',
+            ],
+            $indexes
+        );
+        usort($indexData, fn($a, $b) => ($b[2] === 'Yes') <=> ($a[2] === 'Yes'));
+
+        $io->table([
+            'Columns',
+            'Unique',
+            'Primary',
+        ],
+            $indexData
         );
 
         return Command::SUCCESS;
