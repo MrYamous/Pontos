@@ -23,6 +23,7 @@ final class ShowDatabaseCommand extends Command
         $connection = $this->entityManager->getConnection();
         $schemaManager = $connection->createSchemaManager();        
         $params = $connection->getParams();
+
         $io->section('Database Information');
         $io->definitionList(
             ['Database name' => $params['dbname'] ?? 'Unknown database'],
@@ -32,8 +33,14 @@ final class ShowDatabaseCommand extends Command
             ['Port' => $params['port'] ?? 'Unknown port'],
             ['Charset' => $params['charset'] ?? 'Unknown charset']
         );
+
         $io->section('Tables Information');
+
         $tables = $schemaManager->listTables();
+        if (empty($tables)) {
+            $io->block('No tables found in the database.');
+            return Command::SUCCESS;
+        }
 
         $io->table(['#', 'Name', 'Columns', 'Primary Key', 'Comment'], array_map(
         fn($table, $i) => [

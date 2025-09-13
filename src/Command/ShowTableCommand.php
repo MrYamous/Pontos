@@ -28,6 +28,10 @@ final class ShowTableCommand extends Command
         $schemaManager = $connection->createSchemaManager();
 
         $columns = $schemaManager->listTableDetails($tableName)->getColumns();
+        if (empty($columns)) {
+            $io->error(sprintf('Table "%s" does not exist or has no columns.', $tableName));
+            return Command::SUCCESS;
+        }
 
         $columnData = array_map(
             fn($column) => [
@@ -67,6 +71,10 @@ final class ShowTableCommand extends Command
         $io->section('Indexes Information');
 
         $indexes = $schemaManager->listTableIndexes($tableName);
+        if (empty($indexes)) {
+            $io->block('No indexes found for this table.');
+            return Command::SUCCESS;
+        }
         
         $indexData = array_map(
             fn($index) => [
