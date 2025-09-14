@@ -28,14 +28,4 @@ final class TestKernel extends Kernel
     {
         return __DIR__ . '/../../';
     }
-
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/inspect_database_bundle_test/cache/' . $this->environment;
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/inspect_database_bundle_test/logs';
-    }
 }
