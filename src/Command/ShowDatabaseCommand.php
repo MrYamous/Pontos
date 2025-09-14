@@ -20,9 +20,17 @@ final class ShowDatabaseCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         
-        $connection = $this->entityManager->getConnection();
-        $schemaManager = $connection->createSchemaManager();        
-        $params = $connection->getParams();
+        try {
+            $connection = $this->entityManager->getConnection();
+            $schemaManager = $connection->createSchemaManager();        
+            $params = $connection->getParams();
+        } catch (\Doctrine\DBAL\Exception $e) {
+            $io->error('Database connection error: ' . $e->getMessage());
+            return Command::FAILURE;
+        } catch (\Exception $e) {
+            $io->error('An error occurred: ' . $e->getMessage());
+            return Command::FAILURE;
+        }
 
         $io->section('Database Information');
         $io->definitionList(

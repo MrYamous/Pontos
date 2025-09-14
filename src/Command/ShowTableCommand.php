@@ -24,8 +24,16 @@ final class ShowTableCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         
-        $connection = $this->entityManager->getConnection();
-        $schemaManager = $connection->createSchemaManager();
+        try {
+            $connection = $this->entityManager->getConnection();
+            $schemaManager = $connection->createSchemaManager();        
+        } catch (\Doctrine\DBAL\Exception $e) {
+            $io->error('Database connection error: ' . $e->getMessage());
+            return Command::FAILURE;
+        } catch (\Exception $e) {
+            $io->error('An error occurred: ' . $e->getMessage());
+            return Command::FAILURE;
+        }
 
         $columns = $schemaManager->listTableDetails($tableName)->getColumns();
         if (empty($columns)) {
@@ -38,8 +46,8 @@ final class ShowTableCommand extends Command
                 $column->getName(),
                 $column->getType()->getName(),
                 $column->getUnsigned() ? 'Yes' : 'No',
-                $column->getFixed() ? 'Yes' : 'No',
                 $column->getLength() ?? '-',
+                $column->getFixed() ? 'Yes' : 'No',
                 $column->getPrecision() ?? '-',
                 $column->getScale() ?? '-',
                 $column->getNotnull() ? 'No' : 'Yes',
