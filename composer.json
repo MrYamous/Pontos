@@ -13,5 +13,17 @@
         "psr-4": { 
             "Yamous\\InspectDatabaseBundle\\": "src/" 
         }
+    },
+    "require-dev": {
+        "symfony/framework-bundle": "^7.3",
+        "phpunit/phpunit": "^12.3",
+        "doctrine/doctrine-bundle": "^2.16",
+        "symfony/yaml": "^7.3",
+        "doctrine/orm": "^3.5"
+    },
+    "autoload-dev": {
+        "psr-4": { 
+            "Yamous\\InspectDatabaseBundle\\Tests\\": "tests/" 
+        }
     }
 }

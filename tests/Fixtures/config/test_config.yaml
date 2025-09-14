@@ -1,0 +1,12 @@
+framework:
+    test: true
+    secret: 'test-secret'
+
+doctrine:
+    dbal:
+        driver: 'pdo_sqlite'
+        path: ':memory:'
+        charset: utf8
+    orm:
+        auto_generate_proxy_classes: true
+        auto_mapping: true
